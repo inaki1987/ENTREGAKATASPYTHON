@@ -64,6 +64,7 @@ print(resultado)
 #defecto es 5. La función debe calcular la media de los números en la lista y determinar si la media es mayor o igual
 #que nota aprobado. Si es así, el estado será "aprobado", de lo contrario, será "suspenso". La función debe devolver
 #una tupla que contenga la media y el estado.
+
 import numpy as np #importamos numpy para hacer la media, si no deberíamos hacer suma de todos los elementos de la lista entre longitud de la lista
 
 def calificacion (lista,nota_minima):
@@ -194,7 +195,7 @@ print(respuesta)
 #FIN EJERCICIO
 
 #13. Genera una función la cual, para un conjunto de caracteres, devuelva una lista de tuplas con cada letra en
-mayúsculas y minúsculas. Las letras no pueden estar repetidas .Usa la función map()
+#mayúsculas y minúsculas. Las letras no pueden estar repetidas .Usa la función map()
 
 def Mayus_minus(texto):
     parejas = []
@@ -236,7 +237,7 @@ print(lista_mod)
 #FIN EJERCICIO
 
 #16. Escribe una función que tome una cadena de texto y un número entero n como parámetros y devuelva una lista de
-todas las palabras que sean más largas que n. Usa la función filter()
+#todas las palabras que sean más largas que n. Usa la función filter()
 
 def palabras_mas_largas(texto, longitud_palabra):
     palabras = texto.split()
