@@ -40,23 +40,48 @@ print(filtro)
 #FIN EJERCICIO
 
 #4. Genera una función que calcule la diferencia entre los valores de dos listas. Usa la función map()
+
+#from itertools import zip_longest
+# def diferencia(lista1,lista2):
+#        if len(lista1)==len(lista2):  
+#                lista_diferencia=list(map(lambda x, y: x - y, lista1,lista2))
+#       else:
+#            Respuesta=input("Las listas no tienen el mismo numero de elementos,¿quieres completar con ceros la lista más corta para poder realizar la operación?(Si/No)")
+#            if Respuesta=="Si":
+#                listas=zip_longest(lista1, lista2, fillvalue=0) #Rellenamos con ceros la lista más corta
+#                lista1mod, lista2mod = zip(*listas) #asignamos a cada lista el valor de las tuplas generadas en zip_longuest
+#                lista_diferencia=list(map(lambda x, y: x - y, lista1mod, lista2mod))
+#           else:
+#                  lista_diferencia="No se puede relizar la diferencia de estas listas al no tener ambas el mismo número de elementos"
+#       return lista_diferencia
+"""Se añade corrección de PowerMBA
+Aspectos positivos: Usas map y zip_longest correctamente para generar la diferencia.
+
+Áreas de mejora:
+Uso de input dentro de la función. Una función debería recibir parámetros y devolver un resultado, sin interactividad.
+Tipos de retorno inconsistentes. A veces devuelves una lista y otras un string.
+
+
+Tras corrección...
+Ahora la función no interactúa con el usuario,
+Siempre devuelve una lista o lanza excepción.
+Usa un parámetro opcional (rellenar) en lugar de input.
+"""
+
+   
 from itertools import zip_longest
-def diferencia(lista1,lista2):
-        if len(lista1)==len(lista2):  
-                lista_diferencia=list(map(lambda x, y: x - y, lista1,lista2))
-        else:
-            Respuesta=input("Las listas no tienen el mismo numero de elementos,¿quieres completar con ceros la lista más corta para poder realizar la operación?(Si/No)")
-            if Respuesta=="Si":
-                listas=zip_longest(lista1, lista2, fillvalue=0) #Rellenamos con ceros la lista más corta
-                lista1mod, lista2mod = zip(*listas) #asignamos a cada lista el valor de las tuplas generadas en zip_longuest
-                lista_diferencia=list(map(lambda x, y: x - y, lista1mod, lista2mod))
-            else:
-                  lista_diferencia="No se puede relizar la diferencia de estas listas al no tener ambas el mismo número de elementos"
-        return lista_diferencia
+
+def diferencia(lista1, lista2, rellenar=False):  
+    if len(lista1) != len(lista2):
+        if not rellenar:
+            raise ValueError("Las listas deben tener igual longitud o habilitar 'rellenar'.")
+        lista1, lista2 = zip(*zip_longest(lista1, lista2, fillvalue=0))
+    return list(map(lambda x, y: x - y, lista1, lista2))
+
 
 listaA=[2,4,6,8,10]
 listaB=[1,3,5,7,9,20]
-resultado=diferencia(listaA,listaB)
+resultado=diferencia(listaA,listaB,True)
 print(resultado)
 #FIN EJERCICIO
 
@@ -65,31 +90,74 @@ print(resultado)
 #que nota aprobado. Si es así, el estado será "aprobado", de lo contrario, será "suspenso". La función debe devolver
 #una tupla que contenga la media y el estado.
 
-import numpy as np #importamos numpy para hacer la media, si no deberíamos hacer suma de todos los elementos de la lista entre longitud de la lista
+#import numpy as np #importamos numpy para hacer la media, si no deberíamos hacer suma de todos los elementos de la lista entre longitud de la lista
 
-def calificacion (lista,nota_minima):
-    media=round(np.mean(lista),2) #nos quedamos con dos decimales
-    if media >= nota_minima:
-        Resultado=(media,"Aprobado")
-    else:
-        Resultado=(media,"Suspenso")
-    return Resultado
-nota_aprobado=5
-calificaciones=[2,4,5,3,2,9,10,5,5]
-notas=calificacion(calificaciones,nota_aprobado)
+#def calificacion (lista,nota_minima):
+#    media=round(np.mean(lista),2) #nos quedamos con dos decimales
+#    if media >= nota_minima:
+#        Resultado=(media,"Aprobado")
+#    else:
+#        Resultado=(media,"Suspenso")
+#    return Resultado
+#nota_aprobado=5
+#calificaciones=[2,4,5,3,2,9,10,5,5]
+#notas=calificacion(calificaciones,nota_aprobado)
+#print(notas)
+
+"""Se añade corrección de PowerMBA
+
+#Aspectos positivos: Usas map y zip_longest correctamente para generar la diferencia.
+
+#Áreas de mejora:
+
+#Uso de input dentro de la función. Una función debería recibir parámetros y devolver un resultado, sin interactividad.
+#Tipos de retorno inconsistentes. A veces devuelves una lista y otras un string."""
+
+def calificacion(lista, nota_minima=5):
+    """
+    Calcula la media de 'lista' y devuelve (media, estado).
+    """
+    media = round(sum(lista) / len(lista), 2)
+    estado = "Aprobado" if media >= nota_minima else "Suspenso"
+    return media, estado
+
+calificaciones=[2,4,0,8,0,9,10,5,5]
+notas=calificacion(calificaciones)
 print(notas)
+
+#Ahora no hace falta instalar/importar librerías externas.
+#El parámetro nota_minima tiene un valor por defecto.
+#Para más sobre sum y len: https://docs.python.org/3/library/functions.html#sum
 #FIN EJERCICIO
 
 #6. Escribe una función que calcule el factorial de un número de manera recursiva.
 
-def calculo_factorial(numero):
-    factorial_acumulado=numero 
-    for i in range(numero, 1,-1): #paramos el ciclo en  i=2 ya que en el ciclo vamos a usar i-1 y no queremos que lo multiplique x 0 cuando el elemenot sea i=1.
-        factorial_acumulado=factorial_acumulado*(i-1) 
-    return factorial_acumulado
+#def calculo_factorial(numero):
+#    factorial_acumulado=numero 
+#    for i in range(numero, 1,-1): #paramos el ciclo en  i=2 ya que en el ciclo vamos a usar i-1 y no queremos que lo multiplique x 0 cuando el elemenot sea i=1.
+#        factorial_acumulado=factorial_acumulado*(i-1) 
+#    return factorial_acumulado
 
-factorial=calculo_factorial(10)
-print(factorial)
+#factorial=calculo_factorial(10)
+#print(factorial)
+
+
+"""Se añade corrección de PowerMBA
+#Error principal: Pide una implementación recursiva, pero usas un bucle for.
+#Cumple la definición de recursividad.
+#Maneja el caso base 0! = 1.
+#Documentación sobre recursión y factorial: https://docs.python.org/3/tutorial/controlflow.html#defining-functions
+"""
+def factorial(n):
+    """
+    Calcula factorial de n de forma recursiva.
+    """
+    if n < 0:
+        raise ValueError("El número debe ser >= 0.")
+    return 1 if n in (0, 1) else n * factorial(n - 1)
+
+calculo_factorial=factorial(0)
+print(calculo_factorial)
 #FIN EJERCICIO
 
 #7. Genera una función que convierta una lista de tuplas a una lista de strings. Usa la función map()
@@ -108,31 +176,55 @@ print(resultado)
 #o intenta dividir por cero, maneja esas excepciones de manera adecuada. Asegúrate de mostrar un mensaje
 #indicando si la división fue exitosa o no.
 
-def comprobar_dividendo(dividendo):
-    try:
-        comprobacion_D=float(dividendo)
-        return comprobacion_D
-    except ValueError:
-         return(print ("Por favor intente de nuevo con un dividendo válido."))
+#def comprobar_dividendo(dividendo):
+#    try:
+#        comprobacion_D=float(dividendo)
+#        return comprobacion_D
+#    except ValueError:
+#         return(print ("Por favor intente de nuevo con un dividendo válido."))
 
 
-def comprobar_divisor(divisor):
-    try:
-        comprobacion_d = float(divisor)
-        if comprobacion_d != 0:
-            return(comprobacion_d)
+#def comprobar_divisor(divisor):
+#    try:
+#        comprobacion_d = float(divisor)
+#        if comprobacion_d != 0:
+#            return(comprobacion_d)
+#        else:
+#            return(print("El divisor debe ser distinto de 0."))
+#   except ValueError:
+#        return(print("Por favor intente de nuevo con un divisor válido."))
+
+#A=(input("Este programa calculará la división entre dos numeros A/B. Por favor introduzca el dividendo (A):"))
+#a=comprobar_dividendo(A) #verificamos si A es un numero
+
+#B=input("Por favor introduzca el valor del divisor(B):")
+#b=comprobar_divisor(B)
+
+#print (f"El resultado de la división es: {round(a/b,2)}")
+""""
+Se añade corrección de PowerMBA    
+Áreas de mejora:
+Las funciones comprobar_dividendo y comprobar_divisor imprimen y devuelven None, lo que puede romper el flujo.
+La lógica final hace a/b sin garantizar que a y b sean válidos.
+"""
+def pedir_numero(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Entrada no válida. Inténtalo de nuevo.")
+
+def dividir():
+    a = pedir_numero("Dividendo (A): ")
+    while True:
+        b = pedir_numero("Divisor (B): ")
+        if b == 0:
+            print("El divisor no puede ser cero.")
         else:
-            return(print("El divisor debe ser distinto de 0."))
-    except ValueError:
-        return(print("Por favor intente de nuevo con un divisor válido."))
+            break
+    print(f"Resultado: {round(a / b, 2)}")
 
-A=(input("Este programa calculará la división entre dos numeros A/B. Por favor introduzca el dividendo (A):"))
-a=comprobar_dividendo(A) #verificamos si A es un numero
-
-B=input("Por favor introduzca el valor del divisor(B):")
-b=comprobar_divisor(B)
-
-print (f"El resultado de la división es: {round(a/b,2)}")
+División=dividir()
 #FIN EJERCICIO
 
 #9. Escribe una función que tome una lista de nombres de mascotas como parámetro y devuelva una nueva lista
@@ -151,17 +243,41 @@ print (filtro_mascotas(mascotas))
 #10. Escribe una función que reciba una lista de números y calcule su promedio. Si la lista está vacía, lanza una
 #excepción personalizada y maneja el error adecuadamente.
 
-def promedio(lista):
-    sum_elementos=sum(lista)   
-    num_elementos=len(lista)
-    calculo_prom=round(sum_elementos/num_elementos)
-    return calculo_prom
+#def promedio(lista):
+#    sum_elementos=sum(lista)   
+#    num_elementos=len(lista)
+#    calculo_prom=round(sum_elementos/num_elementos)
+#   return calculo_prom
 
-lista_num=[5,7]
-if len(lista_num)==0:
-    print("La lista está vacía")
-else:
-    print(f"El promedio de la lista es {promedio(lista_num)}")
+#lista_num=[5,7]
+#if len(lista_num)==0:
+#    print("La lista está vacía")
+#else:
+#    print(f"El promedio de la lista es {promedio(lista_num)}")
+
+
+
+""""
+Se añade corrección de PowerMBA 
+Error: No defines ni usas una excepción personalizada: simplemente compruebas longitud fuera de la función.
+Ahora la función lanza la excepción.
+El manejo queda en el try/except.
+"""
+
+
+class ListaVaciaError(Exception):
+    pass
+
+def promedio(lista):
+    if not lista:
+        raise ListaVaciaError("La lista está vacía.")
+    return round(sum(lista) / len(lista), 2)
+
+# Uso:
+try:
+    print(promedio([3,5]))
+except ListaVaciaError as e:
+    print(e)
 #FIN EJERCICIO
 
 #11. Escribe un programa que pida al usuario que introduzca su edad. Si el usuario ingresa un valor no numérico o un
@@ -197,19 +313,36 @@ print(respuesta)
 #13. Genera una función la cual, para un conjunto de caracteres, devuelva una lista de tuplas con cada letra en
 #mayúsculas y minúsculas. Las letras no pueden estar repetidas .Usa la función map()
 
-def Mayus_minus(texto):
-    parejas = []
-    tuplas_unicas=[]
-    for caracter in texto:
-        parejas.append(list(map(lambda c: (c.upper(), c.lower()),caracter)))
+#def Mayus_minus(texto):
+#    parejas = []
+#    tuplas_unicas=[]
+ #   for caracter in texto:
+#        parejas.append(list(map(lambda c: (c.upper(), c.lower()),caracter)))
+#
+#    for tupla in parejas:
+#        if tupla not in tuplas_unicas:
+#            tuplas_unicas.append(tupla)
+#    return tuplas_unicas
 
-    for tupla in parejas:
-        if tupla not in tuplas_unicas:
-            tuplas_unicas.append(tupla)
-    return tuplas_unicas
+#cadena=input("Introduzca una cadena detexto para indicar las diferentes letras únicas que aparecen en el mismo. Las letras se motraran por parejas de mayúsculas y minúsculas")
+#tuplas_uni=Mayus_minus (cadena)
+#print(tuplas_uni)
+
+"""
+Corrección PowerMBA
+Error de estructura: Construyes parejas como lista de listas en lugar de tuplas únicas y desanidadas
+Uso de set(texto) para unificar caracteres.
+Solo letras (.isalpha()), y cada tupla correctament
+"""
+def mayus_minus(texto):
+    resultado = set()
+    for c in set(texto):
+        if c.isalpha():
+            resultado.add((c.upper(), c.lower()))
+    return list(resultado)
 
 cadena=input("Introduzca una cadena detexto para indicar las diferentes letras únicas que aparecen en el mismo. Las letras se motraran por parejas de mayúsculas y minúsculas")
-tuplas_uni=Mayus_minus (cadena)
+tuplas_uni=mayus_minus(cadena)
 print(tuplas_uni)
 #FIN EJERCICIO
 
@@ -239,20 +372,53 @@ print(lista_mod)
 #16. Escribe una función que tome una cadena de texto y un número entero n como parámetros y devuelva una lista de
 #todas las palabras que sean más largas que n. Usa la función filter()
 
-def palabras_mas_largas(texto, longitud_palabra):
+# def palabras_mas_largas(texto, longitud_palabra):
+#     palabras = texto.split()
+#     return list(filter(lambda palabra: len(palabra) > longitud_palabra, palabras))
+
+# B=float(input("Este programa devuelve una lista de todas las palabras que sean más largas que n. Introzuca un valor para n:"))
+
+# A=input("Introduzca un texto en el que quiera filtrar las palabras de más de {B} letras")  
+
+# palabras_filtradas=palabras_mas_largas(A,B)
+# print(palabras_filtradas)
+"""
+Corrección PowerMBA
+Áreas de mejora:
+
+Convierte n a float, pero len() devuelve int.
+La cadena en el prompt no usa f-string correctamente.
+
+n es int.
+Strings formateados con f"..."."""
+
+def palabras_mas_largas(texto, n):
     palabras = texto.split()
-    return list(filter(lambda palabra: len(palabra) > longitud_palabra, palabras))
+    return list(filter(lambda p: len(p) > n, palabras))
 
-B=float(input("Este programa devuelve una lista de todas las palabras que sean más largas que n. Introzuca un valor para n:"))
-
-A=input("Introduzca un texto en el que quiera filtrar las palabras de más de {B} letras")  
-
-palabras_filtradas=palabras_mas_largas(A,B)
-print(palabras_filtradas)
+# Uso:
+n = int(input("Filtrar palabras con longitud mayor que n: "))
+texto = input(f"Introduce el texto para filtrar (> {n} caracteres): ")
+print(palabras_mas_largas(texto, n))
 #FIN EJERCICIO
 
 #17. Crea una función que tome una lista de dígitos y devuelva el número correspondiente. Por ejemplo, [5,7,2]
 #corresponde al número quinientos setenta y dos (572). Usa la función reduce()
+
+# def convertir_en_numero(lista_digitos):
+#     digito=reduce(lambda x, y : x*10+y,lista_digitos)
+#     return digito
+
+# from functools import reduce
+# digitos=[4,5,6,5,4,3]
+# print(convertir_en_numero(digitos))
+
+"""
+Corrección PowerMBA
+a función antes de from functools import reduce, provocando NameError.
+Importación por encima de la definición"""
+
+from functools import reduce
 
 def convertir_en_numero(lista_digitos):
     digito=reduce(lambda x, y : x*10+y,lista_digitos)
@@ -522,7 +688,11 @@ class Arbol:
         else:
             print(f" la posición {num_rama} no existe en este arbol")
     def info_arbol(self):
-        print(f"El arbol tiene un tronco de {self.tronco} m de longitud y {len(self.ramas)} ramas, cada una de las cuales tiene {self.ramas} m de longitud respectivamente")
+        #print(f"El arbol tiene un tronco de {self.tronco} m de longitud y {len(self.ramas)} ramas, cada una de las cuales tiene {self.ramas} m de longitud respectivamente")
+        """corrección powerMBA
+        Error de retorno: info_arbol hace print internamente y no devuelve nada (None), luego print(manzano.info_arbol()) imprime None.
+        """
+        return(f"El arbol tiene un tronco de {self.tronco} m de longitud y {len(self.ramas)} ramas, cada una de las cuales tiene {self.ramas} m de longitud respectivamente")
 #1. Crear un árbol.
 manzano=Arbol()
 #2. Hacer crecer el tronco del árbol una unidad.
@@ -537,7 +707,7 @@ for i in range(2):
 #6. Retirar la rama situada en la posición 2.
 manzano.quitar_rama(1)
 #7. Obtener información sobre el árbol.
-print (manzano.info_arbol())     
+print (manzano.info_arbol())          
 #FIN EJERCICIO
 
 #36. Crea la clase UsuarioBanco ,representa a un usuario de un banco con su nombre, saldo y si tiene o no cuenta
@@ -552,48 +722,97 @@ print (manzano.info_arbol())
 #4. Implementar el método agregar_dinero para agregar dinero al saldo del usuario.
 #Caso de uso:
 
-class UsuarioBanco:
-    def __init__(self,nombre,saldo,cuenta):
-        self.nombre= nombre
-        self.saldo= saldo
-        self.cuenta= cuenta
-    def retirar_dinero(self, cantidad,cuenta):
-        if cuenta:
-            if cantidad < self.saldo:
-                self.saldo= self.saldo-cantidad
-            else: print("La cantidad excede el saldo de la cuenta")
-        else: print("El usuario no tiene cuenta en este banco")
-    def agregar_dinero (self,cantidad,cuenta):
-        if cuenta:
-             self.saldo=self.saldo+cantidad
-        else: print("El usuario no tiene cuenta en este banco")
+# class UsuarioBanco:
+#     def __init__(self,nombre,saldo,cuenta):
+#         self.nombre= nombre
+#         self.saldo= saldo
+#         self.cuenta= cuenta
+#     def retirar_dinero(self, cantidad,cuenta):
+#         if cuenta:
+#             if cantidad < self.saldo:
+#                 self.saldo= self.saldo-cantidad
+#             else: print("La cantidad excede el saldo de la cuenta")
+#         else: print("El usuario no tiene cuenta en este banco")
+#     def agregar_dinero (self,cantidad,cuenta):
+#         if cuenta:
+#              self.saldo=self.saldo+cantidad
+#         else: print("El usuario no tiene cuenta en este banco")
    
-    def transferir_dinero(self,receptor, cantidad):
-        if cantidad>self.saldo:
-            print (f"{self.nombre} no tiene suficiente saldo")
-        else:
-            receptor.saldo +=cantidad 
-            self.saldo -=cantidad
+#     def transferir_dinero(self,receptor, cantidad):
+#         if cantidad>self.saldo:
+#             print (f"{self.nombre} no tiene suficiente saldo")
+#         else:
+#             receptor.saldo +=cantidad 
+#             self.saldo -=cantidad
               
 
-    def info (self):
-        print(f" {self.nombre} tiene {(self.saldo)} euros")
+#     def info (self):
+#         print(f" {self.nombre} tiene {(self.saldo)} euros")
         
-#1. Crear dos usuarios: "Alicia" con saldo inicial de 100 y "Bob" con saldo inicial de 50, ambos con cuenta corriente.
-Alicia=UsuarioBanco("Alicia",100,True)
-Bob=UsuarioBanco("Bob",80, True)
-Alicia.info()
-Bob.info()
+# #1. Crear dos usuarios: "Alicia" con saldo inicial de 100 y "Bob" con saldo inicial de 50, ambos con cuenta corriente.
+# Alicia=UsuarioBanco("Alicia",100,True)
+# Bob=UsuarioBanco("Bob",80, True)
+# Alicia.info()
+# Bob.info()
+# #2. Agregar 20 unidades de saldo de "Bob".
+# Bob.agregar_dinero(20,True)
+# Bob.info()
+# #3. Hacer una transferencia de 80 unidades desde "Bob" a "Alicia".
+# Bob.transferir_dinero(Alicia,80)
+# Bob.info()
+# Alicia.info()
+# #4. Retirar 50 unidades de saldo a "Alicia".
+# Alicia.retirar_dinero(50,True)
+# Alicia.info()
+
+
+"""Corrección PowerMBA
+Áreas de mejora:
+
+No es necesario pasar cuenta a cada método; ya es atributo de la instancia.
+Mejor lanzar excepciones en caso de error que hacer print.
+
+Usa siempre self.tiene_corriente.
+Errores como excepciones, no silenciosos prints."""
+
+class UsuarioBanco:
+    def __init__(self, nombre, saldo, tiene_corriente):
+        self.nombre = nombre
+        self.saldo = saldo
+        self.tiene_corriente = tiene_corriente
+
+    def retirar(self, cantidad):
+        if not self.tiene_corriente:
+            raise RuntimeError("No tiene cuenta corriente.")
+        if cantidad > self.saldo:
+            raise RuntimeError("Saldo insuficiente.")
+        self.saldo -= cantidad
+
+    def agregar(self, cantidad):
+        if not self.tiene_corriente:
+            raise RuntimeError("No tiene cuenta corriente.")
+        self.saldo += cantidad
+
+    def transferir(self, otro, cantidad):
+        self.retirar(cantidad)
+        otro.agregar(cantidad)
+
+    def __str__(self):
+        return f"{self.nombre}: {self.saldo} €"
+
+# Caso de uso:
+ #1. Crear dos usuarios: "Alicia" con saldo inicial de 100 y "Bob" con saldo inicial de 50, ambos con cuenta corriente.
+A = UsuarioBanco("Alicia", 100, True)
+B = UsuarioBanco("Bob", 80, True)
+
 #2. Agregar 20 unidades de saldo de "Bob".
-Bob.agregar_dinero(20,True)
-Bob.info()
+B.agregar(20)
+
 #3. Hacer una transferencia de 80 unidades desde "Bob" a "Alicia".
-Bob.transferir_dinero(Alicia,80)
-Bob.info()
-Alicia.info()
+B.transferir(A, 80)
 #4. Retirar 50 unidades de saldo a "Alicia".
-Alicia.retirar_dinero(50,True)
-Alicia.info()
+A.retirar(50)
+print(A, B)
 #FIN EJERCICIO
 
 #37. Crea una función llamada procesar_texto que procesa un texto según la opción especificada: contar_palabras ,
